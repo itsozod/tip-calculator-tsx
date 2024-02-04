@@ -1,0 +1,14 @@
+.row {
+  margin-top: 10px;
+  width: 100%;
+}
+.col {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 5px;
+  margin-top: 10px;
+}
+.tip_btn {
+  background-color: hsl(183, 100%, 15%);
+  color: #fff;
+}

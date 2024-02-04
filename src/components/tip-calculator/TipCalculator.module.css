@@ -1,0 +1,9 @@
+.tip_calculator {
+  background-color: #fff;
+  /* display: flex; */
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+}

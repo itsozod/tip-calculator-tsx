@@ -1,0 +1,10 @@
+.bill_holder {
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+}
+.bill_container {
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}

@@ -1,0 +1,30 @@
+.result_container {
+  background-color: hsl(183, 100%, 15%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  padding: 10px;
+  width: 100%;
+  height: auto;
+}
+.tip_amount {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.total_amount {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.para {
+  color: #fff;
+}
+.reset_btn {
+  margin-top: auto;
+  width: 100%;
+  background-color: hsl(172, 67%, 45%);
+  border: none;
+  outline: none;
+}
