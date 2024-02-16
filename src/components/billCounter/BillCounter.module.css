@@ -1,7 +1,11 @@
 .bill_holder {
   justify-content: center;
   padding: 10px;
+  gap: 10px;
   width: 100%;
+  @media screen and (max-width: 455px) {
+    flex-direction: column;
+  }
 }
 .bill_container {
   justify-content: center;
