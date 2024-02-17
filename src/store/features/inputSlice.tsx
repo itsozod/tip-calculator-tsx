@@ -5,7 +5,6 @@ const initialState = {
   peopleInput: 0,
   tip: 0,
   total: 0,
-  btnValue: 5,
 };
 
 export const inputSlice = createSlice({
@@ -27,5 +26,4 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { setPrice, setPeople, setTip, setTotal, setBtnValue } =
-  inputSlice.actions;
+export const { setPrice, setPeople, setTip, setTotal } = inputSlice.actions;

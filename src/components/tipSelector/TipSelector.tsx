@@ -1,41 +1,65 @@
 import { Button, Col, Input, Row, Typography } from "antd";
 import styles from "./TipSelector.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotal } from "../../store/features/inputSlice";
+import { setTip, setTotal } from "../../store/features/inputSlice";
+
+const buttons = [
+  {
+    id: 1,
+    value: 5,
+  },
+  {
+    id: 2,
+    value: 10,
+  },
+  {
+    id: 3,
+    value: 15,
+  },
+  {
+    id: 4,
+    value: 25,
+  },
+  {
+    id: 5,
+    value: 50,
+  },
+];
 
 export const TipSelector = () => {
   const { Paragraph } = Typography;
   const priceInput = useSelector((state) => state.input.priceInput);
-  const btnValue = useSelector((state) => state.input.btnValue);
+  const peopleInput = useSelector((state) => state.input.peopleInput);
   const dispatch = useDispatch();
-  const getResult = (value) => {
-    const result = priceInput * btnValue;
-    dispatch(setTotal(result));
-    console.log("hello");
+  const getResult = (value: number) => {
+    if (!priceInput || !peopleInput) {
+      alert("Please enter a price and number of people");
+      return;
+    }
+    // tip per person
+    const tipFromTotal = (priceInput * value) / 100;
+    const tipPerPerson = tipFromTotal / peopleInput;
+    dispatch(setTip(tipPerPerson));
+    // money per person
+    const totalMoney = priceInput / peopleInput;
+    dispatch(setTotal(totalMoney + tipPerPerson));
   };
   return (
     <Col className={styles.row}>
       <Paragraph>Select a tip %</Paragraph>
       <Row className={styles.col}>
-        <Button
-          // value={btnValue}
-          onClick={() => getResult(btnValue)}
-          className={styles.tip_btn}
-        >
-          {btnValue}
-        </Button>
-        <Button value={"10%"} className={styles.tip_btn}>
-          10%
-        </Button>
-        <Button value={"15"} className={styles.tip_btn}>
-          15%
-        </Button>
-        <Button value={"25%"} className={styles.tip_btn}>
-          25%
-        </Button>
-        <Button value={"50%"} className={styles.tip_btn}>
-          50%
-        </Button>
+        {buttons.map((btn) => {
+          return (
+            <Button
+              key={btn.id}
+              value={btn.value}
+              className={styles.tip_btn}
+              onClick={() => getResult(btn.value)}
+            >
+              {btn.value}%
+            </Button>
+          );
+        })}
         <Input type="number" placeholder="Custom"></Input>
       </Row>
     </Col>
