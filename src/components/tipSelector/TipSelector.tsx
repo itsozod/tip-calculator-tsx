@@ -1,7 +1,8 @@
 import { Button, Col, Input, Row, Typography } from "antd";
 import styles from "./TipSelector.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setTip, setTotal } from "../../store/features/inputSlice";
+import { useAppSelector } from "../../store/store";
 
 const buttons = [
   {
@@ -28,8 +29,8 @@ const buttons = [
 
 export const TipSelector = () => {
   const { Paragraph } = Typography;
-  const priceInput = useSelector((state) => state.input.priceInput);
-  const peopleInput = useSelector((state) => state.input.peopleInput);
+  const priceInput = useAppSelector((state) => state.input.priceInput);
+  const peopleInput = useAppSelector((state) => state.input.peopleInput);
   const dispatch = useDispatch();
   const getResult = (value: number) => {
     if (!priceInput || !peopleInput) {

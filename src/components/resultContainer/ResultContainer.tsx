@@ -1,17 +1,18 @@
 import { Button, Flex, Typography } from "antd";
 import styles from "./ResultContainer.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setPeople,
   setPrice,
   setTip,
   setTotal,
 } from "../../store/features/inputSlice";
+import { useAppSelector } from "../../store/store";
 
 export const ResultContainer = () => {
   const { Paragraph } = Typography;
-  const tip = useSelector((state) => state.input.tip);
-  const total = useSelector((state) => state.input.total);
+  const tip = useAppSelector((state) => state.input.tip);
+  const total = useAppSelector((state) => state.input.total);
   const dispatch = useDispatch();
 
   const reset = () => {

@@ -1,10 +1,11 @@
 import { Flex, Input, Typography } from "antd";
 import styles from "./PeopleCounter.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPeople } from "../../store/features/inputSlice";
+import { useAppSelector } from "../../store/store";
 
 export const PeopleCounter = () => {
-  const peopleInput = useSelector((state) => state.input.peopleInput);
+  const peopleInput = useAppSelector((state) => state.input.peopleInput);
   const dispatch = useDispatch();
   const { Paragraph } = Typography;
   return (

@@ -3,11 +3,12 @@ import styles from "./BillCounter.module.css";
 import { TipSelector } from "../tipSelector/TipSelector";
 import { PeopleCounter } from "../peopleCounter/PeopleCounter";
 import { ResultContainer } from "../resultContainer/ResultContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPrice } from "../../store/features/inputSlice";
+import { useAppSelector } from "../../store/store";
 
 export const BillCounter = () => {
-  const priceInput = useSelector((state) => state.input.priceInput);
+  const priceInput = useAppSelector((state) => state.input.priceInput);
   const { Paragraph } = Typography;
   const dispatch = useDispatch();
   return (

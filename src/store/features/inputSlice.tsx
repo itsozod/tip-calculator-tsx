@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
+import { Inputs } from "../../Types";
+const initialState: Inputs = {
   priceInput: 0,
   peopleInput: 0,
   tip: 0,
@@ -11,7 +11,7 @@ export const inputSlice = createSlice({
   name: "input",
   initialState,
   reducers: {
-    setPrice: (state, { payload }) => {
+    setPrice: (state: Inputs, { payload }) => {
       state.priceInput = payload;
     },
     setPeople: (state, { payload }) => {
