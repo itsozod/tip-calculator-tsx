@@ -17,7 +17,6 @@ export const BillCounter = () => {
         <Paragraph>Bill</Paragraph>
         <Input
           value={priceInput}
-          type="number"
           onChange={(e) => dispatch(setPrice(e.target.value))}
           placeholder="Enter price"
         ></Input>

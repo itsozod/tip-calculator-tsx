@@ -2,6 +2,7 @@ import { Button, Flex, Typography } from "antd";
 import styles from "./ResultContainer.module.css";
 import { useDispatch } from "react-redux";
 import {
+  setCustom,
   setPeople,
   setPrice,
   setTip,
@@ -18,8 +19,9 @@ export const ResultContainer = () => {
   const reset = () => {
     dispatch(setTip(0));
     dispatch(setTotal(0));
-    dispatch(setPrice(0));
-    dispatch(setPeople(0));
+    dispatch(setPrice(""));
+    dispatch(setPeople(""));
+    dispatch(setCustom(""));
   };
   return (
     <Flex className={styles.result_container}>

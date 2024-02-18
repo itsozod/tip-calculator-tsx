@@ -1,8 +1,9 @@
 import { Button, Col, Input, Row, Typography } from "antd";
 import styles from "./TipSelector.module.css";
 import { useDispatch } from "react-redux";
-import { setTip, setTotal } from "../../store/features/inputSlice";
+import { setCustom, setTip, setTotal } from "../../store/features/inputSlice";
 import { useAppSelector } from "../../store/store";
+import { ChangeEvent } from "react";
 
 const buttons = [
   {
@@ -31,19 +32,27 @@ export const TipSelector = () => {
   const { Paragraph } = Typography;
   const priceInput = useAppSelector((state) => state.input.priceInput);
   const peopleInput = useAppSelector((state) => state.input.peopleInput);
+  const customValue = useAppSelector((state) => state.input.customValue);
   const dispatch = useDispatch();
   const getResult = (value: number) => {
     if (!priceInput || !peopleInput) {
       alert("Please enter a price and number of people");
       return;
     }
+
     // tip per person
-    const tipFromTotal = (priceInput * value) / 100;
-    const tipPerPerson = tipFromTotal / peopleInput;
+    const tipFromTotal = (parseInt(priceInput) * value) / 100;
+    const tipPerPerson = tipFromTotal / parseInt(peopleInput);
     dispatch(setTip(tipPerPerson));
     // money per person
-    const totalMoney = priceInput / peopleInput;
+    const totalMoney = parseInt(priceInput) / parseInt(peopleInput);
     dispatch(setTotal(totalMoney + tipPerPerson));
+  };
+
+  const getCustomValue = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    dispatch(setCustom(value));
+    getResult(Number(value));
   };
   return (
     <Col className={styles.row}>
@@ -61,7 +70,11 @@ export const TipSelector = () => {
             </Button>
           );
         })}
-        <Input type="number" placeholder="Custom"></Input>
+        <Input
+          value={customValue}
+          onChange={getCustomValue}
+          placeholder="Custom"
+        ></Input>
       </Row>
     </Col>
   );

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Inputs } from "../../Types";
 const initialState: Inputs = {
-  priceInput: 0,
-  peopleInput: 0,
+  priceInput: "",
+  peopleInput: "",
   tip: 0,
   total: 0,
+  customValue: "",
 };
 
 export const inputSlice = createSlice({
@@ -23,7 +24,11 @@ export const inputSlice = createSlice({
     setTotal: (state, { payload }) => {
       state.total = payload;
     },
+    setCustom: (state, { payload }) => {
+      state.customValue = payload;
+    },
   },
 });
 
-export const { setPrice, setPeople, setTip, setTotal } = inputSlice.actions;
+export const { setPrice, setPeople, setTip, setTotal, setCustom } =
+  inputSlice.actions;

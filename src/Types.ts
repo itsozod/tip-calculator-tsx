@@ -1,6 +1,7 @@
 export type Inputs = {
-  priceInput: number;
-  peopleInput: number;
+  priceInput: string;
+  peopleInput: string;
   tip: number;
   total: number;
+  customValue: string;
 };
