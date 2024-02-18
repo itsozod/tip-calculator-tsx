@@ -11,7 +11,7 @@ import {
 import { useAppSelector } from "../../store/store";
 
 export const ResultContainer = () => {
-  const { Paragraph } = Typography;
+  const { Paragraph, Title } = Typography;
   const tip = useAppSelector((state) => state.input.tip);
   const total = useAppSelector((state) => state.input.total);
   const dispatch = useDispatch();
@@ -26,12 +26,33 @@ export const ResultContainer = () => {
   return (
     <Flex className={styles.result_container}>
       <Flex className={styles.tip_amount}>
-        <Paragraph className={styles.para}>Tip amount</Paragraph>
-        <Paragraph className={styles.para}>${tip}</Paragraph>
+        <Flex className={styles.para_container}>
+          <Paragraph className={styles.para}>Tip amount</Paragraph>
+          <Paragraph className={styles.para}>/ person</Paragraph>
+        </Flex>
+        <Title
+          style={{
+            color: "hsl(172, 67%, 45%)",
+          }}
+          level={2}
+        >
+          ${tip}
+        </Title>
       </Flex>
       <Flex className={styles.total_amount}>
-        <Paragraph className={styles.para}>Total</Paragraph>
-        <Paragraph className={styles.para}>${total}</Paragraph>
+        <Flex className={styles.para_container}>
+          <Paragraph className={styles.para}>Total</Paragraph>
+          <Paragraph className={styles.para}>/ person</Paragraph>
+        </Flex>
+        <Title
+          style={{
+            color: "hsl(172, 67%, 45%)",
+          }}
+          level={2}
+          className={styles.para}
+        >
+          ${total}
+        </Title>
       </Flex>
       <Button onClick={() => reset()} className={styles.reset_btn}>
         Reset

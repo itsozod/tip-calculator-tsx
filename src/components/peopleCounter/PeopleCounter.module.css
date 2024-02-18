@@ -2,4 +2,15 @@
   flex-direction: column;
   margin-top: 10px;
   width: 100%;
+  position: relative;
+}
+.people_input {
+  text-align: right;
+  z-index: 1;
+}
+.people_icon {
+  position: absolute;
+  top: 65%;
+  z-index: 2;
+  transform: translateX(5px);
 }

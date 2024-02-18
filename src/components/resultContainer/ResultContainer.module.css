@@ -6,6 +6,7 @@
   padding: 10px;
   width: 100%;
   height: auto;
+  border-radius: 12px;
 }
 .tip_amount {
   justify-content: space-between;
@@ -16,6 +17,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+.para_container {
+  justify-content: center;
+  flex-direction: column;
 }
 .para {
   color: #fff;

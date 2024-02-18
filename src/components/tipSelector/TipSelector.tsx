@@ -75,6 +75,7 @@ export const TipSelector = () => {
           value={customValue}
           onChange={getCustomValue}
           placeholder="Custom"
+          className={styles.custom_input}
         ></Input>
       </Row>
     </Col>
