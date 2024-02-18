@@ -16,6 +16,7 @@ export const BillCounter = () => {
       <Flex className={styles.bill_container}>
         <Paragraph>Bill</Paragraph>
         <Input
+          type="number"
           value={priceInput}
           onChange={(e) => dispatch(setPrice(e.target.value))}
           placeholder="Enter price"

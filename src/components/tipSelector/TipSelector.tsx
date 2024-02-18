@@ -71,6 +71,7 @@ export const TipSelector = () => {
           );
         })}
         <Input
+          type="number"
           value={customValue}
           onChange={getCustomValue}
           placeholder="Custom"
