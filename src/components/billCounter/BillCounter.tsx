@@ -4,17 +4,37 @@ import { TipSelector } from "../tipSelector/TipSelector";
 import { PeopleCounter } from "../peopleCounter/PeopleCounter";
 import { ResultContainer } from "../resultContainer/ResultContainer";
 import { useDispatch } from "react-redux";
-import { setPrice } from "../../store/features/inputSlice";
+import { setError, setPrice, setTrack } from "../../store/features/inputSlice";
 import { useAppSelector } from "../../store/store";
+import { ChangeEvent } from "react";
 
 export const BillCounter = () => {
   const priceInput = useAppSelector((state) => state.input.priceInput);
   const { Paragraph } = Typography;
   const dispatch = useDispatch();
+  const error = useAppSelector((state) => state.input.error);
+  const track = useAppSelector((state) => state.input.track);
+
+  const handlePriceInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (Number(e.target.value) <= 0) {
+      dispatch(setTrack(e.target.value));
+      dispatch(setError("error"));
+      dispatch(setPrice(e.target.value));
+    } else {
+      // dispatch(setTrack(""));
+      dispatch(setError(""));
+      dispatch(setPrice(e.target.value));
+    }
+  };
   return (
     <Flex className={styles.bill_holder}>
       <Flex className={styles.bill_container}>
-        <Paragraph>Bill</Paragraph>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Paragraph>Bill</Paragraph>
+          {track === priceInput && error === "error" ? (
+            <Paragraph style={{ color: "red" }}>Can't be zero</Paragraph>
+          ) : null}
+        </div>
         <span className={styles.dollar_icon}>
           <svg xmlns="http://www.w3.org/2000/svg" width="11" height="17">
             <path
@@ -26,9 +46,10 @@ export const BillCounter = () => {
         <Input
           className={styles.bill_input}
           type="number"
+          status={track === priceInput && error === "error" ? "error" : ""}
           value={priceInput}
-          onChange={(e) => dispatch(setPrice(e.target.value))}
-          placeholder="Enter price"
+          onChange={(e) => handlePriceInput(e)}
+          placeholder="0"
         ></Input>
         <TipSelector />
         <PeopleCounter />

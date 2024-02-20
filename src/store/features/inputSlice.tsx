@@ -6,13 +6,15 @@ const initialState: Inputs = {
   tip: 0,
   total: 0,
   customValue: "",
+  error: "",
+  track: "",
 };
 
 export const inputSlice = createSlice({
   name: "input",
   initialState,
   reducers: {
-    setPrice: (state: Inputs, { payload }) => {
+    setPrice: (state, { payload }) => {
       state.priceInput = payload;
     },
     setPeople: (state, { payload }) => {
@@ -27,8 +29,21 @@ export const inputSlice = createSlice({
     setCustom: (state, { payload }) => {
       state.customValue = payload;
     },
+    setError: (state, { payload }) => {
+      state.error = payload;
+    },
+    setTrack: (state, { payload }) => {
+      state.track = payload;
+    },
   },
 });
 
-export const { setPrice, setPeople, setTip, setTotal, setCustom } =
-  inputSlice.actions;
+export const {
+  setPrice,
+  setPeople,
+  setTip,
+  setTotal,
+  setCustom,
+  setError,
+  setTrack,
+} = inputSlice.actions;

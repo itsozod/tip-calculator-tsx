@@ -1,7 +1,12 @@
 import { Button, Col, Input, Row, Typography } from "antd";
 import styles from "./TipSelector.module.css";
 import { useDispatch } from "react-redux";
-import { setCustom, setTip, setTotal } from "../../store/features/inputSlice";
+import {
+  setCustom,
+  setError,
+  setTip,
+  setTotal,
+} from "../../store/features/inputSlice";
 import { useAppSelector } from "../../store/store";
 import { ChangeEvent } from "react";
 
@@ -38,6 +43,19 @@ export const TipSelector = () => {
     if (!priceInput || !peopleInput) {
       alert("Please enter a price and number of people");
       return;
+    }
+    if (Number(priceInput) <= 0) {
+      setError("error");
+      return;
+    } else {
+      setError("");
+    }
+
+    if (Number(peopleInput) <= 0) {
+      setError("error");
+      return;
+    } else {
+      setError("");
     }
 
     // tip per person

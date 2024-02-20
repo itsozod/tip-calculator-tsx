@@ -4,4 +4,6 @@ export type Inputs = {
   tip: number;
   total: number;
   customValue: string;
+  error: string;
+  track: string;
 };

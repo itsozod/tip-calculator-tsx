@@ -1,16 +1,34 @@
 import { Flex, Input, Typography } from "antd";
 import styles from "./PeopleCounter.module.css";
 import { useDispatch } from "react-redux";
-import { setPeople } from "../../store/features/inputSlice";
+import { setError, setPeople, setTrack } from "../../store/features/inputSlice";
 import { useAppSelector } from "../../store/store";
+import { ChangeEvent } from "react";
 
 export const PeopleCounter = () => {
+  const error = useAppSelector((state) => state.input.error);
+  const track = useAppSelector((state) => state.input.track);
   const peopleInput = useAppSelector((state) => state.input.peopleInput);
   const dispatch = useDispatch();
   const { Paragraph } = Typography;
+  const handlePeopleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (Number(e.target.value) <= 0) {
+      dispatch(setTrack(e.target.value));
+      dispatch(setError("error"));
+      dispatch(setPeople(e.target.value));
+    } else {
+      dispatch(setError(""));
+      dispatch(setPeople(e.target.value));
+    }
+  };
   return (
     <Flex className={styles.people_counter}>
-      <Paragraph>Number of people</Paragraph>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Paragraph>Number of people</Paragraph>
+        {track === peopleInput && error === "error" ? (
+          <Paragraph style={{ color: "red" }}>Can't be zero</Paragraph>
+        ) : null}
+      </div>
       <span className={styles.people_icon}>
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16">
           <path
@@ -21,10 +39,11 @@ export const PeopleCounter = () => {
       </span>
       <Input
         className={styles.people_input}
+        status={track === peopleInput && error === "error" ? "error" : ""}
         value={peopleInput}
-        onChange={(e) => dispatch(setPeople(e.target.value))}
+        onChange={(e) => handlePeopleInput(e)}
         type="number"
-        placeholder="Number of people"
+        placeholder="0"
       ></Input>
     </Flex>
   );
