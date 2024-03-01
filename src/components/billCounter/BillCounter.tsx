@@ -3,36 +3,45 @@ import styles from "./BillCounter.module.css";
 import { TipSelector } from "../tipSelector/TipSelector";
 import { PeopleCounter } from "../peopleCounter/PeopleCounter";
 import { ResultContainer } from "../resultContainer/ResultContainer";
-import { useDispatch } from "react-redux";
-import { setError, setPrice, setTrack } from "../../store/features/inputSlice";
-import { useAppSelector } from "../../store/store";
-import { ChangeEvent } from "react";
+import { useFormik } from "formik";
 
 export const BillCounter = () => {
-  const priceInput = useAppSelector((state) => state.input.priceInput);
   const { Paragraph } = Typography;
-  const dispatch = useDispatch();
-  const error = useAppSelector((state) => state.input.error);
-  const track = useAppSelector((state) => state.input.track);
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      priceInput: "",
+      peopleInput: "",
+      tip: 0,
+      total: 0,
+      customValue: "",
+      error: "",
+    },
+    validate: (values) => {
+      const errors = {};
 
-  const handlePriceInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) <= 0) {
-      dispatch(setTrack(e.target.value));
-      dispatch(setError("error"));
-      dispatch(setPrice(e.target.value));
-    } else {
-      // dispatch(setTrack(""));
-      dispatch(setError(""));
-      dispatch(setPrice(e.target.value));
-    }
-  };
+      if (!values.priceInput) {
+        errors.priceInput = "Required!";
+      }
+
+      if (!values.peopleInput) {
+        errors.peopleInput = "Required!";
+      }
+
+      return errors;
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   return (
     <Flex className={styles.bill_holder}>
       <Flex className={styles.bill_container}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Paragraph>Bill</Paragraph>
-          {track === priceInput && error === "error" ? (
-            <Paragraph style={{ color: "red" }}>Can't be zero</Paragraph>
+          {formik.touched.priceInput && formik.errors.priceInput ? (
+            <div style={{ color: "red" }}>{formik.errors.priceInput}</div>
           ) : null}
         </div>
         <span className={styles.dollar_icon}>
@@ -45,14 +54,18 @@ export const BillCounter = () => {
         </span>
         <Input
           className={styles.bill_input}
+          name="priceInput"
+          value={formik.values.priceInput}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
           type="number"
-          status={track === priceInput && error === "error" ? "error" : ""}
-          value={priceInput}
-          onChange={(e) => handlePriceInput(e)}
           placeholder="0"
+          status={
+            formik.touched.priceInput && formik.errors.priceInput ? "error" : ""
+          }
         ></Input>
         <TipSelector />
-        <PeopleCounter />
+        <PeopleCounter formik={formik} />
       </Flex>
       <ResultContainer />
     </Flex>

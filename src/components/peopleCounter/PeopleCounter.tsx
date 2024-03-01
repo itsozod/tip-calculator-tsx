@@ -1,32 +1,15 @@
 import { Flex, Input, Typography } from "antd";
 import styles from "./PeopleCounter.module.css";
-import { useDispatch } from "react-redux";
-import { setError, setPeople, setTrack } from "../../store/features/inputSlice";
-import { useAppSelector } from "../../store/store";
-import { ChangeEvent } from "react";
 
-export const PeopleCounter = () => {
-  const error = useAppSelector((state) => state.input.error);
-  const track = useAppSelector((state) => state.input.track);
-  const peopleInput = useAppSelector((state) => state.input.peopleInput);
-  const dispatch = useDispatch();
+export const PeopleCounter = ({ formik }) => {
   const { Paragraph } = Typography;
-  const handlePeopleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) <= 0) {
-      dispatch(setTrack(e.target.value));
-      dispatch(setError("error"));
-      dispatch(setPeople(e.target.value));
-    } else {
-      dispatch(setError(""));
-      dispatch(setPeople(e.target.value));
-    }
-  };
+
   return (
     <Flex className={styles.people_counter}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Paragraph>Number of people</Paragraph>
-        {track === peopleInput && error === "error" ? (
-          <Paragraph style={{ color: "red" }}>Can't be zero</Paragraph>
+        {formik.touched.peopleInput && formik.errors.peopleInput ? (
+          <div style={{ color: "red" }}>{formik.errors.peopleInput}</div>
         ) : null}
       </div>
       <span className={styles.people_icon}>
@@ -39,9 +22,13 @@ export const PeopleCounter = () => {
       </span>
       <Input
         className={styles.people_input}
-        status={track === peopleInput && error === "error" ? "error" : ""}
-        value={peopleInput}
-        onChange={(e) => handlePeopleInput(e)}
+        name="peopleInput"
+        status={
+          formik.touched.peopleInput && formik.errors.peopleInput ? "error" : ""
+        }
+        value={formik.values.peopleInput}
+        onBlur={formik.handleBlur}
+        onChange={formik.handleChange}
         type="number"
         placeholder="0"
       ></Input>
