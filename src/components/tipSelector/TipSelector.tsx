@@ -1,5 +1,7 @@
 import { Button, Col, Input, Row, Typography } from "antd";
 import styles from "./TipSelector.module.css";
+import { ChangeEvent } from "react";
+import { FormikValues } from "formik";
 
 const buttons = [
   {
@@ -24,58 +26,59 @@ const buttons = [
   },
 ];
 
-export const TipSelector = () => {
+export const TipSelector = ({ formik }: FormikValues) => {
   const { Paragraph } = Typography;
-  // const priceInput = useAppSelector((state) => state.input.priceInput);
-  // const peopleInput = useAppSelector((state) => state.input.peopleInput);
-  // const customValue = useAppSelector((state) => state.input.customValue);
-  // const dispatch = useDispatch();
-  // const getResult = (value: number) => {
-  //   if (!priceInput || !peopleInput) {
-  //     alert("Please enter a price and number of people");
-  //     return;
-  //   }
-  //   if (Number(priceInput) <= 0) {
-  //     setError("error");
-  //     return;
-  //   } else {
-  //     setError("");
-  //   }
 
-  //   if (Number(peopleInput) <= 0) {
-  //     setError("error");
-  //     return;
-  //   } else {
-  //     setError("");
-  //   }
+  const getResult = (value: number) => {
+    if (formik.values.priceInput && formik.values.peopleInput) {
+      const tipFromTotal = (parseInt(formik.values.priceInput) * value) / 100;
+      const tipPerPerson = tipFromTotal / parseInt(formik.values.peopleInput);
+      formik.handleChange({
+        target: { name: "tip", value: tipPerPerson },
+      });
 
-  //   // tip per person
-  //   const tipFromTotal = (parseInt(priceInput) * value) / 100;
-  //   const tipPerPerson = tipFromTotal / parseInt(peopleInput);
-  //   dispatch(setTip(tipPerPerson));
-  //   // money per person
-  //   const totalMoney = parseInt(priceInput) / parseInt(peopleInput);
-  //   dispatch(setTotal(totalMoney + tipPerPerson));
-  // };
+      const money =
+        parseInt(formik.values.priceInput) /
+          parseInt(formik.values.peopleInput) +
+        tipPerPerson;
+      formik.setFieldValue("total", money);
+    }
+  };
 
-  // const getCustomValue = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const value = e.target.value;
-  //   dispatch(setCustom(value));
-  //   getResult(Number(value));
-  // };
+  const getCustomValue = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    formik.handleChange({ target: { name: "customValue", value: value } });
+    if (formik.values.priceInput && formik.values.peopleInput) {
+      if (value) {
+        getResult(parseInt(value));
+      } else {
+        formik.handleChange({ target: { name: "tip", value: 0 } });
+        formik.handleChange({ target: { name: "total", value: 0 } });
+      }
+    }
+  };
   return (
     <Col className={styles.row}>
       <Paragraph>Select a tip %</Paragraph>
       <Row className={styles.col}>
         {buttons.map((btn) => {
           return (
-            <Button key={btn.id} value={btn.value} className={styles.tip_btn}>
+            <Button
+              htmlType="submit"
+              key={btn.id}
+              value={btn.value}
+              className={styles.tip_btn}
+              onClick={() => getResult(btn.value)}
+            >
               {btn.value}%
             </Button>
           );
         })}
         <Input
           type="number"
+          name="customValue"
+          value={formik.values.customValue}
+          onChange={getCustomValue}
           placeholder="Custom"
           className={styles.custom_input}
         ></Input>

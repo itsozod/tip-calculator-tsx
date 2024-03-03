@@ -1,16 +1,10 @@
 import { Button, Flex, Typography } from "antd";
 import styles from "./ResultContainer.module.css";
+import { FormikValues } from "formik";
 
-export const ResultContainer = () => {
+export const ResultContainer = ({ formik }: FormikValues) => {
   const { Paragraph, Title } = Typography;
 
-  // const reset = () => {
-  //   dispatch(setTip(0));
-  //   dispatch(setTotal(0));
-  //   dispatch(setPrice(""));
-  //   dispatch(setPeople(""));
-  //   dispatch(setCustom(""));
-  // };
   return (
     <Flex className={styles.result_container}>
       <Flex className={styles.tip_amount}>
@@ -24,7 +18,7 @@ export const ResultContainer = () => {
           }}
           level={2}
         >
-          {/* ${tip} */}
+          {formik.values.tip}
         </Title>
       </Flex>
       <Flex className={styles.total_amount}>
@@ -39,10 +33,12 @@ export const ResultContainer = () => {
           level={2}
           className={styles.para}
         >
-          {/* ${total} */}
+          {formik.values.total}
         </Title>
       </Flex>
-      <Button className={styles.reset_btn}>Reset</Button>
+      <Button className={styles.reset_btn} onClick={formik.handleReset}>
+        Reset
+      </Button>
     </Flex>
   );
 };

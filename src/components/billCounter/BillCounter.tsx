@@ -1,9 +1,10 @@
-import { Flex, Input, Typography } from "antd";
+import { Flex, Form, Input, Typography } from "antd";
 import styles from "./BillCounter.module.css";
 import { TipSelector } from "../tipSelector/TipSelector";
 import { PeopleCounter } from "../peopleCounter/PeopleCounter";
-import { ResultContainer } from "../resultContainer/ResultContainer";
+
 import { useFormik } from "formik";
+import { ResultContainer } from "../resultContainer/ResultContainer";
 
 export const BillCounter = () => {
   const { Paragraph } = Typography;
@@ -18,7 +19,10 @@ export const BillCounter = () => {
       error: "",
     },
     validate: (values) => {
-      const errors = {};
+      const errors = {
+        priceInput: "",
+        peopleInput: "",
+      };
 
       if (!values.priceInput) {
         errors.priceInput = "Required!";
@@ -35,6 +39,7 @@ export const BillCounter = () => {
     },
   });
 
+  console.log("Form Data", formik.values);
   return (
     <Flex className={styles.bill_holder}>
       <Flex className={styles.bill_container}>
@@ -52,22 +57,26 @@ export const BillCounter = () => {
             />
           </svg>
         </span>
-        <Input
-          className={styles.bill_input}
-          name="priceInput"
-          value={formik.values.priceInput}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          type="number"
-          placeholder="0"
-          status={
-            formik.touched.priceInput && formik.errors.priceInput ? "error" : ""
-          }
-        ></Input>
-        <TipSelector />
-        <PeopleCounter formik={formik} />
+        <Form onFinish={formik.handleSubmit} layout="vertical">
+          <Input
+            className={styles.bill_input}
+            name="priceInput"
+            value={formik.values.priceInput}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            type="number"
+            placeholder="0"
+            status={
+              formik.touched.priceInput && formik.errors.priceInput
+                ? "error"
+                : ""
+            }
+          ></Input>
+          <TipSelector formik={formik} />
+          <PeopleCounter formik={formik} />
+        </Form>
       </Flex>
-      <ResultContainer />
+      <ResultContainer formik={formik} />
     </Flex>
   );
 };

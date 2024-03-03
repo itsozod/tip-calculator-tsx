@@ -1,7 +1,8 @@
 import { Flex, Input, Typography } from "antd";
 import styles from "./PeopleCounter.module.css";
+import { FormikValues } from "formik";
 
-export const PeopleCounter = ({ formik }) => {
+export const PeopleCounter = ({ formik }: FormikValues) => {
   const { Paragraph } = Typography;
 
   return (
