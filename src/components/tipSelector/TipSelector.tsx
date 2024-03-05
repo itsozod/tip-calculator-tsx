@@ -31,17 +31,17 @@ export const TipSelector = ({ formik }: FormikValues) => {
 
   const getResult = (value: number) => {
     if (formik.values.priceInput && formik.values.peopleInput) {
-      const tipFromTotal = (parseInt(formik.values.priceInput) * value) / 100;
-      const tipPerPerson = tipFromTotal / parseInt(formik.values.peopleInput);
+      const tipFromTotal = (Number(formik.values.priceInput) * value) / 100;
+      const tipPerPerson = tipFromTotal / Number(formik.values.peopleInput);
       formik.handleChange({
-        target: { name: "tip", value: tipPerPerson },
+        target: { name: "tip", value: tipPerPerson.toFixed(2) },
       });
 
       const money =
         parseInt(formik.values.priceInput) /
           parseInt(formik.values.peopleInput) +
         tipPerPerson;
-      formik.setFieldValue("total", money);
+      formik.setFieldValue("total", money.toFixed(2));
     }
   };
 
@@ -50,7 +50,7 @@ export const TipSelector = ({ formik }: FormikValues) => {
     formik.handleChange({ target: { name: "customValue", value: value } });
     if (formik.values.priceInput && formik.values.peopleInput) {
       if (value) {
-        getResult(parseInt(value));
+        getResult(Number(value));
       } else {
         formik.handleChange({ target: { name: "tip", value: 0 } });
         formik.handleChange({ target: { name: "total", value: 0 } });
